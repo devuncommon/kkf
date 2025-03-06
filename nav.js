@@ -1,3 +1,4 @@
+// Nav Color Modes & Scroll Trigger
 document.addEventListener("DOMContentLoaded", function () {
     const mediaQuery = window.matchMedia("(min-width: 992px)");
 
@@ -15,21 +16,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function applyTheme() {
             if (!firstThemeSection || isScrolled || isDropdownOpen || isNavNoteHovered || isDropdownActive()) return;
+        
+            // Remove old theme classes from nav
             nav.classList.forEach((cls) => {
                 if (cls.startsWith("theme")) nav.classList.remove(cls);
             });
+        
+            // Apply new theme class from hero section
             firstThemeSection.classList.forEach((cls) => {
                 if (cls.startsWith("theme")) nav.classList.add(cls);
             });
+        
+            // ✅ Ensure logo color updates
+            const themeBodyColor = getComputedStyle(firstThemeSection).getPropertyValue("--_theme---body-text").trim();
+            document.querySelector(".nav-menu_logo").style.color = themeBodyColor;
+            
+            console.log("Applied theme color to logo:", themeBodyColor);
         }
 
         function removeTheme(delayed = false) {
             clearTimeout(timeoutId);
+            
             const reset = () => {
                 nav.classList.forEach((cls) => {
                     if (cls.startsWith("theme")) nav.classList.remove(cls);
                 });
+        
+                // ✅ Reset logo color to default
+                document.querySelector(".nav-menu_logo").style.color = "var(--_colors---swatch--soft-black)";
+                console.log("Nav scrolled: Reset logo color to default.");
             };
+        
             if (delayed) {
                 timeoutId = setTimeout(reset, 200);
             } else {
@@ -44,6 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
         function onDropdownEnter() {
             isDropdownOpen = true;
             removeTheme();
+        
+            // ✅ Ensure logo resets to default color
+            document.querySelector(".nav-menu_logo").style.color = "var(--_colors---swatch--soft-black)";
+            console.log("Dropdown hover: Reset logo color to default.");
         }
 
         function onDropdownLeave() {
