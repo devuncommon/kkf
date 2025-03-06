@@ -1,9 +1,6 @@
 // Vimeo SRC 
 document.addEventListener("DOMContentLoaded",(function(){document.querySelectorAll(".video-cover").forEach((e=>{const t=e.getAttribute("data-video");if(t){const o=e.querySelector("video");e.querySelector("source").setAttribute("src",t),o.load()}}))}));
 
-// Image Mask
-document.addEventListener("DOMContentLoaded",(function(){gsap.registerPlugin(ScrollTrigger),gsap.utils.toArray(".image-mask").forEach((function(r){gsap.fromTo(r,{y:"0%"},{y:"-100%",ease:"power3.out",duration:1.5,scrollTrigger:{trigger:r,start:"top 100%",end:"top 0%",scrub:!1}})}))}));
-
 // Button Stagger
 function initButtonCharacterStagger(){document.querySelectorAll("[data-button-animate-chars]").forEach((t=>{const e=t.textContent;t.innerHTML="",[...e].forEach(((e,n)=>{const a=document.createElement("span");a.textContent=e,a.style.transitionDelay=.003*n+"s"," "===e&&(a.style.whiteSpace="pre"),t.appendChild(a)}))}))}document.addEventListener("DOMContentLoaded",(()=>{initButtonCharacterStagger()}));
 
