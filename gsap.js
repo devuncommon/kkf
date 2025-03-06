@@ -1,6 +1,5 @@
 // Text Wrap Fix
 const isSafari=navigator.userAgent.includes("Safari")&&!navigator.userAgent.includes("Chrome"),elements=document.querySelectorAll("h1, h2, h3, h4, h5, h6, p");elements.forEach((e=>{e.style.textWrap=isSafari?"normal":"balance"}));
-</script>
 
 // GSAP SplitText Safari Fix
 navigator.userAgent.includes("Safari")&&!navigator.userAgent.includes("Chrome")&&document.querySelectorAll(".word-line").forEach((e=>{const n=document.createElement("div");n.style.textWrap="normal",n.style.display="inline-block",e.parentNode.insertBefore(n,e),n.appendChild(e)}));
