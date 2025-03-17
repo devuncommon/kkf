@@ -5,6 +5,8 @@ const isSafari=navigator.userAgent.includes("Safari")&&!navigator.userAgent.incl
 navigator.userAgent.includes("Safari")&&!navigator.userAgent.includes("Chrome")&&document.querySelectorAll(".word-line").forEach((e=>{const n=document.createElement("div");n.style.textWrap="normal",n.style.display="inline-block",e.parentNode.insertBefore(n,e),n.appendChild(e)}));
 
 // GSAP SplitText Animations
+gsap.registerPlugin(SplitText);
+
 let addAnimation = function() {
     $(".no-split-text, .rich-text-accordion").css("opacity", 1);
     $(".rich-text-regular h5, .rich-text-regular h6, .rich-text-large h5, .rich-text-large h6, .rich-text-legals h5, .rich-text-legals h6").css("opacity", 1);
