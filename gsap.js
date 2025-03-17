@@ -8,34 +8,57 @@ navigator.userAgent.includes("Safari")&&!navigator.userAgent.includes("Chrome")&
 gsap.registerPlugin(SplitText);
 
 let addAnimation = function() {
+    console.log("SplitText check:", SplitText);
+
     $(".no-split-text, .rich-text-accordion").css("opacity", 1);
     $(".rich-text-regular h5, .rich-text-regular h6, .rich-text-large h5, .rich-text-large h6, .rich-text-legals h5, .rich-text-legals h6").css("opacity", 1);
 
+    // H1 - H4 animaties
     $("h1:not(.no-split-text, .heading-hero, .rich-text-accordion *), \
       h2:not(.no-split-text, .rich-text-accordion *), \
       h3:not(.no-split-text, .rich-text-accordion *), \
       h4:not(.no-split-text, .rich-text-accordion *)").each(function() {
         let t = $(this),
             e = new SplitText(t[0], { type: "lines", linesClass: "word-line" }),
-            i = $(e.lines);
-        gsap.timeline({
-            scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
-        })
-        .set(t, { opacity: 1 })
-        .from(i, { y: "1em", opacity: 0, duration: 1, stagger: 0.15, ease: "power2.out" });
+            i = e.lines; // Gebruik raw DOM, geen jQuery
+
+        console.log("Target element:", t[0]); 
+        console.log("SplitText instance:", e); 
+        console.log("Lines generated:", i);
+
+        if (i.length) {
+            gsap.timeline({
+                scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
+            })
+            .set(t, { opacity: 1 })
+            .from(i, { y: "1em", opacity: 0, duration: 1, stagger: 0.15, ease: "power2.out" });
+        } else {
+            console.warn("Geen regels gevonden om te animeren voor:", t[0]);
+        }
     });
 
+    // Paragraph animaties
     $(".paragraph-s:not(.no-split-text, .rich-text-accordion *), \
       .paragraph-m:not(.no-split-text, .rich-text-accordion *)").each(function() {
         let t = $(this),
             e = new SplitText(t[0], { type: "lines", linesClass: "word-line" }),
-            i = $(e.lines);
-        gsap.timeline({
-            scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
-        })
-        .from(i, { y: "1em", opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" });
+            i = e.lines; 
+
+        console.log("Target element:", t[0]); 
+        console.log("SplitText instance:", e); 
+        console.log("Lines generated:", i);
+
+        if (i.length) {
+            gsap.timeline({
+                scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
+            })
+            .from(i, { y: "1em", opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" });
+        } else {
+            console.warn("Geen regels gevonden om te animeren voor:", t[0]);
+        }
     });
 
+    // H5 & H6 animaties
     $(".rich-text-regular h5:not(.no-split-text, .rich-text-accordion *), \
       .rich-text-regular h6:not(.no-split-text, .rich-text-accordion *), \
       .rich-text-large h5:not(.no-split-text, .rich-text-accordion *), \
@@ -47,6 +70,7 @@ let addAnimation = function() {
         .from(t, { y: "1em", opacity: 0, duration: 1, ease: "power2.out" });
     });
 
+    // P-elementen animaties
     $("p:not(.no-split-text, .rich-text-accordion *):not([class^='text-size-']):not(.text-size-18px), \
       .text-size-18px:not(.no-split-text, .rich-text-accordion *)").each(function() {
         let t = $(this);
@@ -57,7 +81,17 @@ let addAnimation = function() {
     });
 };
 
+// Functie direct uitvoeren
 addAnimation();
+
+// Resize event met debounce om performance te verbeteren
+let resizeTimeout;
 window.addEventListener("resize", function() {
-    if ($(window).width() >= 992) addAnimation();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        if ($(window).width() >= 992) {
+            console.log("Screen resized - running addAnimation()");
+            addAnimation();
+        }
+    }, 250); // 250ms debounce
 });
