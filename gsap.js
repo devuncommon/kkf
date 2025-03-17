@@ -8,8 +8,6 @@ navigator.userAgent.includes("Safari")&&!navigator.userAgent.includes("Chrome")&
 gsap.registerPlugin(SplitText);
 
 let addAnimation = function() {
-    console.log("SplitText check:", SplitText);
-
     $(".no-split-text, .rich-text-accordion").css("opacity", 1);
     $(".rich-text-regular h5, .rich-text-regular h6, .rich-text-large h5, .rich-text-large h6, .rich-text-legals h5, .rich-text-legals h6").css("opacity", 1);
 
@@ -20,11 +18,7 @@ let addAnimation = function() {
       h4:not(.no-split-text, .rich-text-accordion *)").each(function() {
         let t = $(this),
             e = new SplitText(t[0], { type: "lines", linesClass: "word-line" }),
-            i = e.lines; // Gebruik raw DOM, geen jQuery
-
-        console.log("Target element:", t[0]); 
-        console.log("SplitText instance:", e); 
-        console.log("Lines generated:", i);
+            i = e.lines; 
 
         if (i.length) {
             gsap.timeline({
@@ -32,8 +26,6 @@ let addAnimation = function() {
             })
             .set(t, { opacity: 1 })
             .from(i, { y: "1em", opacity: 0, duration: 1, stagger: 0.15, ease: "power2.out" });
-        } else {
-            console.warn("Geen regels gevonden om te animeren voor:", t[0]);
         }
     });
 
@@ -44,17 +36,11 @@ let addAnimation = function() {
             e = new SplitText(t[0], { type: "lines", linesClass: "word-line" }),
             i = e.lines; 
 
-        console.log("Target element:", t[0]); 
-        console.log("SplitText instance:", e); 
-        console.log("Lines generated:", i);
-
         if (i.length) {
             gsap.timeline({
                 scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
             })
             .from(i, { y: "1em", opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" });
-        } else {
-            console.warn("Geen regels gevonden om te animeren voor:", t[0]);
         }
     });
 
@@ -90,7 +76,6 @@ window.addEventListener("resize", function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
         if ($(window).width() >= 992) {
-            console.log("Screen resized - running addAnimation()");
             addAnimation();
         }
     }, 250); // 250ms debounce
