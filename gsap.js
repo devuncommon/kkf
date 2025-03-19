@@ -11,11 +11,11 @@ let addAnimation = function() {
     $(".no-split-text, .rich-text-accordion").css("opacity", 1);
     $(".rich-text-regular h5, .rich-text-regular h6, .rich-text-large h5, .rich-text-large h6, .rich-text-legals h5, .rich-text-legals h6").css("opacity", 1);
 
-    // H1 - H4 animaties
-    $("h1:not(.no-split-text, .heading-hero, .rich-text-accordion *), \
-      h2:not(.no-split-text, .rich-text-accordion *), \
-      h3:not(.no-split-text, .rich-text-accordion *), \
-      h4:not(.no-split-text, .rich-text-accordion *)").each(function() {
+    // H1 - H4 animations
+    $("h1:not(.no-split-text, .heading-hero, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      h2:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      h3:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      h4:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *)").each(function() {
         let t = $(this),
             e = new SplitText(t[0], { type: "lines", linesClass: "word-line" }),
             i = e.lines; 
@@ -29,9 +29,9 @@ let addAnimation = function() {
         }
     });
 
-    // Paragraph animaties
-    $(".paragraph-s:not(.no-split-text, .rich-text-accordion *), \
-      .paragraph-m:not(.no-split-text, .rich-text-accordion *)").each(function() {
+    // Paragraph animations
+    $(".paragraph-s:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      .paragraph-m:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *)").each(function() {
         let t = $(this),
             e = new SplitText(t[0], { type: "lines", linesClass: "word-line" }),
             i = e.lines; 
@@ -44,11 +44,11 @@ let addAnimation = function() {
         }
     });
 
-    // H5 & H6 animaties
-    $(".rich-text-regular h5:not(.no-split-text, .rich-text-accordion *), \
-      .rich-text-regular h6:not(.no-split-text, .rich-text-accordion *), \
-      .rich-text-large h5:not(.no-split-text, .rich-text-accordion *), \
-      .rich-text-large h6:not(.no-split-text, .rich-text-accordion *)").each(function() {
+    // H5 & H6 animations
+    $(".rich-text-regular h5:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      .rich-text-regular h6:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      .rich-text-large h5:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *), \
+      .rich-text-large h6:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *)").each(function() {
         let t = $(this);
         gsap.timeline({
             scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
@@ -56,9 +56,9 @@ let addAnimation = function() {
         .from(t, { y: "1em", opacity: 0, duration: 1, ease: "power2.out" });
     });
 
-    // P-elementen animaties
-    $("p:not(.no-split-text, .rich-text-accordion *):not([class^='text-size-']):not(.text-size-18px), \
-      .text-size-18px:not(.no-split-text, .rich-text-accordion *)").each(function() {
+    // P-element animations
+    $("p:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *):not([class^='text-size-']):not(.text-size-18px), \
+      .text-size-18px:not(.no-split-text, .rich-text-accordion *, .rich-text-regular.no-split-text *, .rich-text-legals.no-split-text *)").each(function() {
         let t = $(this);
         gsap.timeline({
             scrollTrigger: { trigger: t, start: "top 85%", end: "top 85%" }
@@ -67,10 +67,10 @@ let addAnimation = function() {
     });
 };
 
-// Functie direct uitvoeren
+// Run function immediately
 addAnimation();
 
-// Resize event met debounce om performance te verbeteren
+// Resize event with debounce for performance
 let resizeTimeout;
 window.addEventListener("resize", function() {
     clearTimeout(resizeTimeout);
